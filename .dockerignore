@@ -1,0 +1,21 @@
+# Keeping the build context small makes `docker build` faster and stops secrets
+# or local junk ending up inside the image.
+.git
+.gitignore
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache
+.venv
+venv
+env
+tests/
+docs/
+k8s/
+screenshots/
+Jenkinsfile
+README.md
+requirements-dev.txt
+*.md
+.DS_Store

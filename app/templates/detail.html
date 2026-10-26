@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}{{ student.name }} | Student Grade Management System{% endblock %}
+
+{% block content %}
+<section class="card">
+  <a class="link back" href="/">Back to all students</a>
+
+  <h2>{{ student.name }}</h2>
+  <p class="muted"><code>{{ student.roll_no }}</code> &nbsp; SGPA {{ "%.2f"|format(student.sgpa) }}
+     &nbsp; {{ student.total_credits }} credits</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Code</th>
+        <th>Course</th>
+        <th>Credits</th>
+        <th>Score</th>
+        <th>Grade</th>
+        <th>Points</th>
+        <th>Result</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for c in student.courses %}
+      <tr>
+        <td><code>{{ c.code }}</code></td>
+        <td>{{ c.title }}</td>
+        <td>{{ c.credits }}</td>
+        <td>{{ c.score }}</td>
+        <td><strong>{{ c.grade }}</strong></td>
+        <td>{{ c.points }}</td>
+        <td>
+          {% if c.passed %}
+            <span class="pill pass">Pass</span>
+          {% else %}
+            <span class="pill fail">Fail</span>
+          {% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</section>
+{% endblock %}

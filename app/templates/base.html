@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Student Grade Management System{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+  <header class="banner">
+    <div class="banner-inner">
+      <div>
+        <h1>Student Grade Management System</h1>
+        <p class="sub">Department of Computer Science and Engineering</p>
+      </div>
+      <div class="version-chip">
+        <span class="ver">{{ app_version }}</span>
+        <span class="note">{{ release_note }}</span>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer>
+    <span>Served by pod <code>{{ pod_name }}</code></span>
+    <span>Build <code>{{ build_number }}</code></span>
+    <span><a href="/api/students">JSON API</a></span>
+    <span><a href="/health">Health</a></span>
+  </footer>
+
+</body>
+</html>

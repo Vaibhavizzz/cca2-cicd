@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: cca2
+  labels:
+    name: cca2
+    purpose: cca2-cicd-assignment

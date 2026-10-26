@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="card">
+  <h2>Semester Results</h2>
+  <p class="muted">Ranked by credit weighted SGPA.</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Rank</th>
+        <th>Roll No</th>
+        <th>Name</th>
+        <th>Credits</th>
+        <th>SGPA</th>
+        <th>Status</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for s in students %}
+      <tr>
+        <td class="rank">{{ loop.index }}</td>
+        <td><code>{{ s.roll_no }}</code></td>
+        <td>{{ s.name }}</td>
+        <td>{{ s.total_credits }}</td>
+        <td class="sgpa">{{ "%.2f"|format(s.sgpa) }}</td>
+        <td>
+          {% if s.all_cleared %}
+            <span class="pill pass">All cleared</span>
+          {% else %}
+            <span class="pill fail">Backlog</span>
+          {% endif %}
+        </td>
+        <td><a class="link" href="/student/{{ s.roll_no }}">Details</a></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</section>
+{% endblock %}
