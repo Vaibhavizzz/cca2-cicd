@@ -1,16 +1,4 @@
-# ============================================================================
-# Deployment
-#
-# EDIT THREE THINGS BEFORE FIRST RUN:
-#   1. spec.template.spec.containers[0].image  -> your Docker Hub username
-#   2. containerPort                           -> the port your app listens on
-#   3. the two probe ports                     -> same port as above
-#
-# The image tag here is :latest so the very first `kubectl apply` has something
-# real to pull. The Jenkinsfile immediately overrides it with a build-numbered
-# tag via `kubectl set image`. That override is what makes run #2 deploy new code
-# instead of silently reusing the cached :latest layer.
-# ============================================================================
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -18,30 +6,37 @@ metadata:
   namespace: cca2
   labels:
     app: cca2-app
+
 spec:
   replicas: 2
   revisionHistoryLimit: 5
+
   selector:
     matchLabels:
       app: cca2-app
+
   strategy:
     type: RollingUpdate
     rollingUpdate:
-      maxUnavailable: 0      # keep the app reachable all through the demo
+      maxUnavailable: 0
       maxSurge: 1
+
   template:
     metadata:
       labels:
         app: cca2-app
+
     spec:
       containers:
-        - name: cca2-app                                    # must match the Jenkinsfile APP_NAME
-          image: your-dockerhub-username/cca2-app:latest    # EDIT ME
-          imagePullPolicy: Always                           # forces a registry pull every time
+        - name: cca2-app
+          image: vaibhaviz/cca2-app:latest
+          imagePullPolicy: Always
+
           ports:
             - name: http
-              containerPort: 8080                           # EDIT ME
+              containerPort: 8080
               protocol: TCP
+
           resources:
             requests:
               cpu: "100m"
@@ -49,19 +44,17 @@ spec:
             limits:
               cpu: "500m"
               memory: "512Mi"
-          # TCP probes, not HTTP. A TCP probe succeeds as soon as the port is
-          # open, so it works whatever your app serves on "/". An HTTP probe
-          # against a path that returns 404 would leave pods permanently NotReady
-          # and break the demo.
+
           readinessProbe:
             tcpSocket:
-              port: 8080                                    # EDIT ME
+              port: 8080
             initialDelaySeconds: 5
             periodSeconds: 5
             failureThreshold: 6
+
           livenessProbe:
             tcpSocket:
-              port: 8080                                    # EDIT ME
+              port: 8080
             initialDelaySeconds: 20
             periodSeconds: 15
             failureThreshold: 3
