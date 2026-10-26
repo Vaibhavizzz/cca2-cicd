@@ -13,7 +13,7 @@ pipeline {
         IMAGE_TAG      = "${BUILD_NUMBER}"
         IMAGE_REF      = "${IMAGE}:${IMAGE_TAG}"
 
-        KUBECONFIG     = '/var/lib/jenkins/.kube/config'
+        KUBECONFIG = '/var/lib/jenkins/.kube/config'
         MINIKUBE_HOME  = '/var/lib/jenkins'
         PATH           = "/usr/local/bin:${env.PATH}"
     }
@@ -87,32 +87,40 @@ pipeline {
             }
         }
 
-        stage('5. Deploy to Minikube') {
-            steps {
-                sh '''
-                    set -eu
+        
+stage('5. Deploy to Minikube') {
+    steps {
+        sh '''
+            set -eu
 
-                    echo "Checking Kubernetes connection..."
-                    kubectl get nodes
+            export KUBECONFIG=/var/lib/jenkins/.kube/config
 
-                    kubectl apply -f k8s/namespace.yaml
-                    kubectl apply -f k8s/service.yaml
-                    kubectl apply -f k8s/deployment.yaml
+            echo "Checking Kubernetes connection..."
+            kubectl get nodes
 
-                    echo "Deploying image: $IMAGE_REF"
+            echo "Applying Kubernetes manifests..."
+            kubectl apply -f k8s/namespace.yaml
+            kubectl apply -f k8s/service.yaml
+            kubectl apply -f k8s/deployment.yaml
 
-                    kubectl set image \
-                        deployment/"$APP_NAME" \
-                        "$APP_NAME"="$IMAGE_REF" \
-                        -n "$NAMESPACE"
+            echo "Deploying image: $IMAGE_REF"
 
-                    kubectl rollout status \
-                        deployment/"$APP_NAME" \
-                        -n "$NAMESPACE" \
-                        --timeout=180s
-                '''
-            }
-        }
+            kubectl set image \
+                deployment/"$APP_NAME" \
+                "$APP_NAME"="$IMAGE_REF" \
+                -n "$NAMESPACE"
+
+            kubectl rollout status \
+                deployment/"$APP_NAME" \
+                -n "$NAMESPACE" \
+                --timeout=180s
+
+            echo "Deployment successful."
+            kubectl get pods,svc -n "$NAMESPACE"
+        '''
+    }
+}
+
 
         stage('6. Verify') {
             steps {
