@@ -68,7 +68,7 @@ pipeline {
                     flake8 app tests --max-line-length=120 --count
 
                     echo "===== UNIT AND INTEGRATION TESTS ====="
-                    pytest -v --junitxml=test-results.xml
+                    python -m pytest -v --junitxml=test-results.xml
                 '''
             }
             post {
