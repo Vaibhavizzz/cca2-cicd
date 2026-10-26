@@ -11,7 +11,7 @@ pipeline {
 
     environment {
         // ------------- EDIT THIS ONE LINE, NOTHING ELSE -------------
-        DOCKERHUB_USER = 'your-dockerhub-username'   // your Docker Hub account name
+        DOCKERHUB_USER = 'vaibhaviz'   // your Docker Hub account name
         // ------------------------------------------------------------
 
         APP_NAME  = 'cca2-app'            // image name and every Kubernetes object name

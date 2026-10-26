@@ -90,4 +90,4 @@ def not_found(_e):
 
 if __name__ == "__main__":
     # Development server only. The container runs gunicorn instead.
-    app.run(host="0.0.0.0", port=8080, debug=True)
+    app.run(host="0.0.0.0", port=5000, debug=True)

@@ -22,5 +22,5 @@ spec:
     - name: http
       protocol: TCP
       port: 80
-      targetPort: 8080   # EDIT ME to match containerPort
+      targetPort: 5000   # EDIT ME to match containerPort
       nodePort: 30080
