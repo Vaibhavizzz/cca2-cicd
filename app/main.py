@@ -7,7 +7,7 @@ import socket
 
 from flask import Flask, jsonify, render_template, abort
 
-from app import data, grades
+from app import grades, data
 
 # ---------------------------------------------------------------------------
 # CHANGE THIS STRING FOR THE SECOND PIPELINE RUN.
