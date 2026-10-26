@@ -14,7 +14,7 @@ from app import grades, data
 # It is rendered in the page banner, so the redeployment is visible in a browser
 # rather than only in kubectl output. This is the evidence for requirement 9.
 # ---------------------------------------------------------------------------
-APP_VERSION = "v1.2"
+APP_VERSION = "v1.5"
 RELEASE_NOTE = "Initial release"
 
 app = Flask(__name__)
